@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.hnguyen387.jpa_query.criterialAPI.globalexceptions.CannotDeleteException;
+
 @ControllerAdvice
 public class GlobalHandleException {
 	
@@ -23,6 +25,10 @@ public class GlobalHandleException {
 	@ExceptionHandler(IllegalArgumentException.class)
 	public ResponseEntity<ErrorDetails> handleIllegalArgumentException(IllegalArgumentException exception) {
 		return handleException(exception, HttpStatus.EXPECTATION_FAILED);
+	}
+	@ExceptionHandler(CannotDeleteException.class)
+	public ResponseEntity<ErrorDetails> handleCannotDeleteException(CannotDeleteException exception) {
+		return handleException(exception, HttpStatus.INTERNAL_SERVER_ERROR);
 	} 
 	private ResponseEntity<ErrorDetails> handleException(RuntimeException exception, HttpStatus status) {
 		ErrorDetails error = new ErrorDetails();
